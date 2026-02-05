@@ -3,7 +3,7 @@ import pandas as pd
 import re
 
 domains = ['google.com', 'yandex.ru', 'github.com', 'stackoverflow.com', 
-           'wikipedia.org', 'python.org', 'perplexity.ai', 'habr.com', 'vk.com', 'mail.ru']
+           'wikipedia.org', 'python.org', 'habr.com', 'vk.com', 'mail.ru', 'nsu.ru']
 
 def domain_ping(domain):
     command = ["ping", "-c", "1", domain]
