@@ -2,6 +2,7 @@ import subprocess
 import pandas as pd
 import re
 
+
 domains = ['google.com', 'yandex.ru', 'github.com', 'stackoverflow.com', 
            'wikipedia.org', 'python.org', 'habr.com', 'vk.com', 'mail.ru', 'nsu.ru']
 
