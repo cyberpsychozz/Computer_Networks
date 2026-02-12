@@ -8,16 +8,16 @@ domains = ['google.com', 'yandex.ru', 'github.com', 'stackoverflow.com',
 
 def domain_ping(domain):
     command = ["ping", "-c", "1", domain]
-    result = subprocess.run(command, capture_output=True, text= True, timeout= 5)
-    output = result.stdout
 
+    output = subprocess.run(command, capture_output=True, text= True, timeout= 5).stdout
+    
     rtt_match = re.search(r'rtt min/avg/max/mdev = (\d+\.?\d*)/(\d+\.?\d*)/(\d+\.?\d*)/(\d+\.?\d*) ms', output)
     if rtt_match:
         min_rtt, avg_rtt, max_rtt, mdev_rtt = rtt_match.groups()
     else:
         min_rtt, avg_rtt, max_rtt, mdev_rtt = "N/A"
 
-    packet_match = re.search(r'(\d)% packet loss', output)
+    packet_match = re.search(r'(\d+)% packet loss', output)
     if packet_match:
         packet_loss = packet_match.group(1)
     else:
