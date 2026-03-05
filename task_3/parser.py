@@ -2,8 +2,8 @@ import csv
 
 from playwright.sync_api import sync_playwright
 
-login = "9137930002"
-password = "pepe5252"
+login = ""
+password = ""
 city = "Москва"
 vacancy = "Data science"
 page_to_parse = 4
@@ -17,7 +17,6 @@ def save_to_csv(data):
     print("Данные сохранены в results.csv")
 
 def register(page, login, password):
-    # register
     page.goto("https://hh.ru/account/login?role=applicant&backurl=%2F&hhtmFrom=main")
     page.click('button[data-qa="submit-button"]')
     page.fill('input[data-qa="magritte-phone-input-national-number-input"]', login)
@@ -62,7 +61,6 @@ def parse_vacancies(page, page_to_parse):
                 "expirience" : experience, 
                 "salary" : salary
             })
-        
         
         next_page_number = str(pg + 2)
         next_button = page.locator(f'a[data-qa="pager-page"]:has-text("{next_page_number}")')
