@@ -1,6 +1,7 @@
-import subprocess 
-import pandas as pd
 import re
+import subprocess 
+
+import pandas as pd
 
 
 domains = ['google.com', 'yandex.ru', 'github.com', 'stackoverflow.com', 
@@ -18,6 +19,7 @@ def domain_ping(domain):
         min_rtt, avg_rtt, max_rtt, mdev_rtt = "N/A"
 
     packet_match = re.search(r'(\d+)% packet loss', output)
+
     if packet_match:
         packet_loss = packet_match.group(1)
     else:
@@ -27,10 +29,12 @@ def domain_ping(domain):
             avg_rtt, "max_rtt" : max_rtt, "mdev_rtt" : mdev_rtt, "packet_loss" : packet_loss}
 
 def main():
-    results = []  
+    results = [] 
+
     for domain in domains:
         res = domain_ping(domain)
         results.append(res)
+
     data = pd.DataFrame(results)  
     data.to_csv("result.csv", index=False)
     
