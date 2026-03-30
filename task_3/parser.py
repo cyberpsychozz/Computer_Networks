@@ -2,8 +2,8 @@ import csv
 
 from playwright.sync_api import sync_playwright
 
-login = ""
-password = ""
+login = "9137930002"
+password = "pepe5252"
 city = "Москва"
 vacancy = "Data science"
 page_to_parse = 4
@@ -17,7 +17,8 @@ def save_to_csv(data):
     print("Данные сохранены в results.csv")
 
 def register(page, login, password):
-    page.goto("https://hh.ru/account/login?role=applicant&backurl=%2F&hhtmFrom=main")
+    page.goto("https://hh.ru")
+    page.click('a[data-qa="login"]')
     page.click('button[data-qa="submit-button"]')
     page.fill('input[data-qa="magritte-phone-input-national-number-input"]', login)
     page.click('button[data-qa="expand-login-by-password"]')
@@ -36,7 +37,12 @@ def parse_vacancies(page, page_to_parse):
     #parsing 
     results = []
     for pg in range(page_to_parse):
-        page.wait_for_load_state("networkidle")
+       
+        try:
+            page.wait_for_selector('div[data-qa="vacancy-serp__vacancy"]', timeout=30000)
+        except Exception as e:
+            print(f"Элементы не прогрузились: {e}")
+            break
 
         items = page.query_selector_all('div[data-qa="vacancy-serp__vacancy"]')
 
@@ -66,7 +72,9 @@ def parse_vacancies(page, page_to_parse):
         next_button = page.locator(f'a[data-qa="pager-page"]:has-text("{next_page_number}")')
         if next_button.count() > 0:
             next_button.click()
-            page.wait_for_load_state("networkidle")
+            
+            page.wait_for_load_state("domcontentloaded")
+            page.wait_for_timeout(2000) 
         else:
             print("Страницы кончились")
             break
@@ -74,7 +82,7 @@ def parse_vacancies(page, page_to_parse):
 
 def main():
     with sync_playwright() as p:
-        browser = p.firefox.launch(headless = False)
+        browser = p.firefox.launch(headless = True)
         context = browser.new_context()
         page = context.new_page()
 

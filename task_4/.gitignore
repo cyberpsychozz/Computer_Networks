@@ -1,0 +1,10 @@
+# .env
+.env
+__pycache__/
+*.pyc
+results.csv
+results.json
+vacancies.csv
+node_modules/
+.pytest_cache/
+.vscode/
