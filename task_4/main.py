@@ -2,7 +2,7 @@ from fastapi import FastAPI,  Query
 from contextlib import asynccontextmanager
 from dotenv import load_dotenv
 
-from db import init_db, save_to_db, get_all_repos
+from db import init_db, save_to_db, get_all_repos, clear_db
 from parser import run_parser
 
 load_dotenv()
@@ -29,4 +29,7 @@ def get_data():
     data = get_all_repos()
     return {"data": data}
 
-
+@app.get("/clear")
+def clear():
+    clear_db()
+    return {"status": "success", "message": "database cleared"}

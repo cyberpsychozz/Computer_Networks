@@ -2,8 +2,8 @@ import csv
 
 from playwright.sync_api import sync_playwright
 
-login = "9137930002"
-password = "pepe5252"
+login = ""
+password = ""
 city = "Москва"
 vacancy = "Data science"
 page_to_parse = 4

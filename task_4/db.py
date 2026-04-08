@@ -46,3 +46,9 @@ def get_all_repos():
     cur = conn.cursor(cursor_factory=RealDictCursor)
     cur.execute('SELECT name, author, description, language, stars FROM repositories ORDER BY stars DESC')
     return cur.fetchall()
+
+def clear_db():
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute('TRUNCATE TABLE repositories RESTART IDENTITY;')
+    conn.commit()
