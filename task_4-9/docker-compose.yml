@@ -9,6 +9,8 @@ services:
       POSTGRES_PASSWORD: mypassword
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - app_net
 
   web:
     build: .
@@ -18,15 +20,29 @@ services:
       - .env
     depends_on:
       - db
+    networks:
+      - app_net
 
   nginx:
     image: nginx:alpine
     ports:
-      - "80:80"
+      - "8080:80"
+      # - "[::]:8081:80"
     volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - ./ru_cidrs.map:/etc/nginx/ru_cidrs.map:ro
     depends_on:
       - web
+    networks:
+      - app_net
+
+networks:
+  app_net:
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: 172.16.238.0/24
+        - subnet: fd00:cafe:face::/64
 
 volumes:
   pgdata:
